@@ -8,7 +8,17 @@ const customerSchema = new Schema({
     },
     userPwd: {
         type: String
-    }
+    },
+    carList: [
+        {
+            productId: String,
+            productName: String,
+            salePrice: String,
+            productImage: String,
+            checked: String,
+            productNum: String
+        }
+    ]
 })
 
 module.exports = mongoose.model('Customers', customerSchema);

@@ -41,7 +41,7 @@
                                     <div class="name" v-text="item.productName"></div>
                                     <div class="price" v-text="item.salePrice">999</div>
                                     <div class="btn-area">
-                                        <a href="javascript:;" class="btn btn--m">加入购物车</a>
+                                        <a href="javascript:;" class="btn btn--m" @click="addShopCart(item)">加入购物车</a>
                                     </div>
                                 </div>
                             </li>
@@ -107,6 +107,32 @@ export default {
     };
   },
   methods: {
+    addShopCart(item) {
+      let {
+        productId,
+        productName,
+        salePrice,
+        productImage,
+        productNum
+      } = item;
+      axios
+        .post(`/mock/addShopCart`, {
+          params: {
+            productId,
+            productName,
+            salePrice,
+            productImage,
+            productNum: 1
+          }
+        })
+        .then(res => {
+          if (res.status === 403) {
+            alert("请先登录");
+          } else if (res.status === 200) {
+            console.log(666);
+          }
+        });
+    },
     closePop() {
       this.overLayFlag = false;
       this.filterShow = false;
@@ -119,6 +145,7 @@ export default {
       this.busy = false;
       this.page = 1;
       if (sign === "all") {
+        this.filterCondition = {};
         this.getProduct({
           page: this.page,
           pagesize: this.pagesize
